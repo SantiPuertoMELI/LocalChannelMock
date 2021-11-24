@@ -1,0 +1,5 @@
+FROM hub.furycloud.io/mercadolibre/go:runtime-mini
+
+ENV GO_ENVIRONMENT="production" \
+    DATACENTER="AWS" \
+    GIN_MODE="release"
