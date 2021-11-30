@@ -12,7 +12,7 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8081"
 	}
 
 	if err := run(port); err != nil {
@@ -33,5 +33,6 @@ func run(port string) error {
 
 func mapRoutes(r *gin.Engine, operations process.Operations) {
 	r.GET("/ping", operations.PingHandler)
-	r.GET("/purchase", operations.PurchaseOkResponse)
+	r.GET("/v1/message", operations.PurchaseOkResponse)
+	r.POST("/v1/message", operations.PurchaseOkResponse)
 }

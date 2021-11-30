@@ -16,5 +16,5 @@ type ErrorResponse struct {
 }
 
 type PurchaseResponse struct {
-	Message channel_iso8583.ChannelMessage
+	Message channel_iso8583.ChannelResponse
 }

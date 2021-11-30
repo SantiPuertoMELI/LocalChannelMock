@@ -1,6 +1,7 @@
 package purchase
 
 import (
+	"encoding/json"
 	"github.com/mercadolibre/LocalChannelMock/cmd/api/util"
 	channel_iso8583 "github.com/mercadolibre/fury_gateway-kit/pkg/g2/framework/channels/iso8583"
 	iso8583_models "github.com/mercadolibre/fury_gateway-kit/pkg/g2/framework/channels/iso8583/models"
@@ -36,7 +37,7 @@ func setupPurchaseOkFields() map[int]iso8583_models.ISO8583MessageField {
 	// System trace audit number
 	purchaseISO8583MessageFields[11] = iso8583_models.ISO8583MessageField{
 		Encoding: iso8583_models.ISO8583FieldTypeString,
-		Content:  util.GenerateRandonNumber(100000, 999999),
+		Content:  string(util.GenerateRandonNumber(100000, 999999)),
 	}
 	// Local transaction time hhmmss
 	purchaseISO8583MessageFields[12] = iso8583_models.ISO8583MessageField{
@@ -86,7 +87,7 @@ func setupPurchaseOkFields() map[int]iso8583_models.ISO8583MessageField {
 	// Response code
 	purchaseISO8583MessageFields[39] = iso8583_models.ISO8583MessageField{
 		Encoding: iso8583_models.ISO8583FieldTypeString,
-		Content:  "000",
+		Content:  "00",
 	}
 	// Card acceptor terminal identification
 	purchaseISO8583MessageFields[41] = iso8583_models.ISO8583MessageField{
@@ -127,16 +128,22 @@ func setupPurchaseOkResponse() PurchaseResponse {
 		Fields:    setupPurchaseOkFields(),
 	}
 
-	purchaseChannelMessage := channel_iso8583.ChannelMessage{
-		UID:            "UID-01010101010101",
+	rawJson, err := json.Marshal(purchaseISO8583Message)
+	if err != nil {
+		panic(err)
+	}
+
+	purchaseChannelResponse := channel_iso8583.ChannelResponse{
+		Success:        true,
 		Profile:        "bbva-interredes",
-		Timeout:        120000,
-		ISO8583Message: purchaseISO8583Message,
+		Elapsed:        1200,
+		Error:          "",
+		Detail:         "",
+		ISO8583Message: rawJson,
 		Filters:        nil,
-		Tag:            "/bbva-interredes/purchase/regular",
 	}
 
 	return PurchaseResponse{
-		Message: purchaseChannelMessage,
+		Message: purchaseChannelResponse,
 	}
 }
