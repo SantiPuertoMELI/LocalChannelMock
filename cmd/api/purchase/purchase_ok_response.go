@@ -5,6 +5,7 @@ import (
 	"github.com/mercadolibre/LocalChannelMock/cmd/api/util"
 	channel_iso8583 "github.com/mercadolibre/fury_gateway-kit/pkg/g2/framework/channels/iso8583"
 	iso8583_models "github.com/mercadolibre/fury_gateway-kit/pkg/g2/framework/channels/iso8583/models"
+	"strconv"
 	"time"
 )
 
@@ -17,7 +18,7 @@ func setupPurchaseOkFields() map[int]iso8583_models.ISO8583MessageField {
 	// MTI
 	purchaseISO8583MessageFields[0] = iso8583_models.ISO8583MessageField{
 		Encoding: iso8583_models.ISO8583FieldTypeString,
-		Content:  "1200",
+		Content:  "0210",
 	}
 	// Processing Code
 	purchaseISO8583MessageFields[3] = iso8583_models.ISO8583MessageField{
@@ -37,7 +38,7 @@ func setupPurchaseOkFields() map[int]iso8583_models.ISO8583MessageField {
 	// System trace audit number
 	purchaseISO8583MessageFields[11] = iso8583_models.ISO8583MessageField{
 		Encoding: iso8583_models.ISO8583FieldTypeString,
-		Content:  string(util.GenerateRandonNumber(100000, 999999)),
+		Content:  strconv.Itoa(util.GenerateRandonNumber(100000, 999999)),
 	}
 	// Local transaction time hhmmss
 	purchaseISO8583MessageFields[12] = iso8583_models.ISO8583MessageField{
