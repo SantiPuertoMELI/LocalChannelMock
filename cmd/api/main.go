@@ -33,6 +33,5 @@ func run(port string) error {
 
 func mapRoutes(r *gin.Engine, operations process.Operations) {
 	r.GET("/ping", operations.PingHandler)
-	//r.POST("/v1/message", operations.PurchaseOkResponse)
-	r.POST("/v1/message", operations.CaptureOkResponse)
+	r.POST("/v1/message", operations.GenericHandler)
 }
